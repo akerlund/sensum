@@ -1,0 +1,726 @@
+EESchema Schematic File Version 2
+LIBS:power
+LIBS:device
+LIBS:switches
+LIBS:relays
+LIBS:motors
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:w_freaquency
+LIBS:w_microcontrollers
+LIBS:crf_1
+LIBS:w_analog
+LIBS:w_logic
+LIBS:w_opto
+LIBS:w_connectors
+LIBS:w_device
+LIBS:w_transistor
+LIBS:w_rtx
+LIBS:w_relay
+LIBS:w_memory
+LIBS:sensor_pcb-cache
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 2 2
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L STM32F405RG U201
+U 1 1 596132F4
+P 4400 2850
+F 0 "U201" H 4400 5000 60  0000 C CNN
+F 1 "STM32F405RG" H 4450 3550 60  0000 C CNN
+F 2 "w_smd_lqfp:lqfp64" H 4250 3050 60  0001 C CNN
+F 3 "" H 4250 3050 60  0000 C CNN
+	1    4400 2850
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C209
+U 1 1 596134E0
+P 6900 4150
+F 0 "C209" H 6925 4250 50  0000 L CNN
+F 1 "2.2µF" H 6925 4050 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 6938 4000 50  0001 C CNN
+F 3 "" H 6900 4150 50  0001 C CNN
+	1    6900 4150
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C210
+U 1 1 596135C2
+P 7150 4150
+F 0 "C210" H 7175 4250 50  0000 L CNN
+F 1 "2.2µF" H 7175 4050 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 7188 4000 50  0001 C CNN
+F 3 "" H 7150 4150 50  0001 C CNN
+	1    7150 4150
+	1    0    0    -1  
+$EndComp
+Text HLabel 6200 4900 2    60   Input ~ 0
+GND
+Text HLabel 6200 4800 2    60   Input ~ 0
+GND
+Text HLabel 6200 4700 2    60   Input ~ 0
+GND
+Text HLabel 6200 3300 2    60   Input ~ 0
+VDD
+Text HLabel 6200 3400 2    60   Input ~ 0
+VDD
+Text HLabel 6200 3500 2    60   Input ~ 0
+VDD
+Text HLabel 6200 3600 2    60   Input ~ 0
+VDD
+Text HLabel 6200 3200 2    60   Input ~ 0
+VDD
+Text HLabel 2650 1000 0    60   Input ~ 0
+ADC0
+Text HLabel 2650 3700 0    60   Input ~ 0
+ADC1
+$Comp
+L C C204
+U 1 1 59615DE0
+P 6950 3450
+F 0 "C204" H 6975 3550 50  0000 L CNN
+F 1 "2.2µF" H 6975 3350 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 6988 3300 50  0001 C CNN
+F 3 "" H 6950 3450 50  0001 C CNN
+	1    6950 3450
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C205
+U 1 1 59615E1F
+P 7200 3450
+F 0 "C205" H 7225 3550 50  0000 L CNN
+F 1 "2.2µF" H 7225 3350 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 7238 3300 50  0001 C CNN
+F 3 "" H 7200 3450 50  0001 C CNN
+	1    7200 3450
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C206
+U 1 1 59615E51
+P 7450 3450
+F 0 "C206" H 7475 3550 50  0000 L CNN
+F 1 "2.2µF" H 7475 3350 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 7488 3300 50  0001 C CNN
+F 3 "" H 7450 3450 50  0001 C CNN
+	1    7450 3450
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C207
+U 1 1 59615E7C
+P 7700 3450
+F 0 "C207" H 7725 3550 50  0000 L CNN
+F 1 "2.2µF" H 7725 3350 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 7738 3300 50  0001 C CNN
+F 3 "" H 7700 3450 50  0001 C CNN
+	1    7700 3450
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C208
+U 1 1 59615ED4
+P 7950 3450
+F 0 "C208" H 7975 3550 50  0000 L CNN
+F 1 "2.2µF" H 7975 3350 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 7988 3300 50  0001 C CNN
+F 3 "" H 7950 3450 50  0001 C CNN
+	1    7950 3450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6950 3300 7950 3300
+Connection ~ 7200 3300
+Wire Wire Line
+	6950 3600 7950 3600
+Connection ~ 7450 3600
+Connection ~ 7700 3600
+Connection ~ 7450 3300
+Connection ~ 7700 3300
+Connection ~ 7200 3600
+Wire Wire Line
+	6900 4000 6200 4000
+Wire Wire Line
+	6200 3900 7150 3900
+Wire Wire Line
+	7150 3900 7150 4000
+Wire Wire Line
+	7150 4300 6900 4300
+Text HLabel 6950 3300 0    60   Input ~ 0
+VDD
+Text HLabel 6950 3600 0    60   Input ~ 0
+GND
+Text HLabel 6900 4300 0    60   Input ~ 0
+GND
+$Comp
+L C C203
+U 1 1 5961621C
+P 6950 2950
+F 0 "C203" H 6975 3050 50  0000 L CNN
+F 1 "2.2µF" H 6975 2850 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 6988 2800 50  0001 C CNN
+F 3 "" H 6950 2950 50  0001 C CNN
+	1    6950 2950
+	-1   0    0    1   
+$EndComp
+Text HLabel 6950 2800 2    60   Input ~ 0
+GND
+Text Label 6200 2600 0    60   ~ 0
+OSC_IN
+Text Label 6200 2700 0    60   ~ 0
+OSC_OUT
+$Comp
+L Chrystal_5x3.2mm X201
+U 1 1 596166B1
+P 8750 1100
+F 0 "X201" V 8600 1100 60  0000 C CNN
+F 1 "8MHz" V 8900 1100 60  0000 C CNN
+F 2 "freaquency:Chrystal_3.5x6mm" H 8750 1100 60  0001 C CNN
+F 3 "" H 8750 1100 60  0000 C CNN
+	1    8750 1100
+	0    -1   -1   0   
+$EndComp
+$Comp
+L C C202
+U 1 1 5961676A
+P 8200 1300
+F 0 "C202" H 8225 1400 50  0000 L CNN
+F 1 "15pF" H 8225 1200 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 8238 1150 50  0001 C CNN
+F 3 "" H 8200 1300 50  0001 C CNN
+	1    8200 1300
+	1    0    0    -1  
+$EndComp
+$Comp
+L C C201
+U 1 1 5961690A
+P 7850 1300
+F 0 "C201" H 7875 1400 50  0000 L CNN
+F 1 "15pF" H 7875 1200 50  0000 L CNN
+F 2 "w_smd_cap:c_0603" H 7888 1150 50  0001 C CNN
+F 3 "" H 7850 1300 50  0001 C CNN
+	1    7850 1300
+	1    0    0    -1  
+$EndComp
+Text Label 8200 1150 2    60   ~ 0
+OSC_IN
+Text Label 7850 1050 2    60   ~ 0
+OSC_OUT
+Wire Wire Line
+	7850 1150 7850 1050
+Wire Wire Line
+	7850 1050 8350 1050
+Wire Wire Line
+	8350 1150 8200 1150
+Wire Wire Line
+	9200 1450 7850 1450
+Wire Wire Line
+	9200 1050 9200 1450
+Connection ~ 8200 1450
+Connection ~ 9200 1150
+Text HLabel 7850 1450 0    60   Input ~ 0
+GND
+NoConn ~ 6200 1100
+NoConn ~ 6200 1800
+NoConn ~ 6200 1900
+NoConn ~ 6200 2100
+NoConn ~ 6200 2200
+NoConn ~ 6200 2300
+Text HLabel 6200 1200 2    60   Input ~ 0
+GND
+NoConn ~ 6200 1300
+$Comp
+L HEADER_6 J201
+U 1 1 5961738E
+P 9700 2200
+F 0 "J201" H 9700 2550 60  0000 C CNN
+F 1 "SWD" V 9850 2200 60  0000 C CNN
+F 2 "w_pin_strip:pin_socket_2mm_6" H 9700 2200 60  0001 C CNN
+F 3 "" H 9700 2200 60  0000 C CNN
+	1    9700 2200
+	1    0    0    -1  
+$EndComp
+Text HLabel 9600 2150 0    60   Input ~ 0
+GND
+Text HLabel 9600 1950 0    60   Input ~ 0
+VDD
+NoConn ~ 9600 2450
+Text HLabel 2650 1800 0    60   Input ~ 0
+USART1_TX
+Text HLabel 2650 1900 0    60   Input ~ 0
+USART1_RX
+Text HLabel 2650 2600 0    60   Input ~ 0
+I2C_SCL
+Text HLabel 2650 2700 0    60   Input ~ 0
+I2C_SDA
+NoConn ~ 8250 900 
+$Comp
+L USB U202
+U 1 1 59FBD697
+P 9250 3700
+F 0 "U202" H 9150 3350 60  0000 C CNN
+F 1 "USB" H 9150 4050 60  0000 C CNN
+F 2 "w_conn_pc:conn_usb_B_mini_smd" H 9400 3650 60  0001 C CNN
+F 3 "" H 9400 3650 60  0001 C CNN
+	1    9250 3700
+	1    0    0    -1  
+$EndComp
+Text HLabel 9600 3500 1    60   Input ~ 0
+5V_USB
+Text Label 9900 3600 0    60   ~ 0
+USB_D-
+Text Label 9900 3700 0    60   ~ 0
+USB_D+
+Text HLabel 9600 3900 2    60   Input ~ 0
+GND
+NoConn ~ 9600 3800
+Text Label 2650 2000 2    60   ~ 0
+USB_D-
+Text Label 2650 2100 2    60   ~ 0
+USB_D+
+Text Label 6200 900  0    60   ~ 0
+SWDIO
+Text Label 6200 1000 0    60   ~ 0
+SWCLK
+Text Label 6200 1400 0    60   ~ 0
+NRST
+Text Label 9600 2250 2    60   ~ 0
+SWDIO
+Text Label 9600 2050 2    60   ~ 0
+SWCLK
+Text Label 9600 2350 2    60   ~ 0
+NRST
+Text HLabel 2650 900  0    60   Input ~ 0
+NEO6M_PPS
+Text HLabel 2650 4500 0    60   Input ~ 0
+ISL29125_INT
+Text HLabel 2650 4700 0    60   Input ~ 0
+VEML6070_ACK
+Text HLabel 2650 4600 0    60   Input ~ 0
+OPT3001_INT
+Text HLabel 2650 3800 0    60   Input ~ 0
+SSD1331_CS
+Text HLabel 2650 3900 0    60   Input ~ 0
+SSD1331_DS
+Text HLabel 2650 4000 0    60   Input ~ 0
+SSD1331_RES
+Text HLabel 2650 1300 0    60   Input ~ 0
+TCS34725_LED
+Text HLabel 2650 1400 0    60   Input ~ 0
+TCS34725_INT
+Text HLabel 2650 4400 0    60   Input ~ 0
+MPU9250_INT
+Text HLabel 2650 4300 0    60   Input ~ 0
+MPU9250_FSYNC
+Text HLabel 2650 4800 0    60   Input ~ 0
+nRF42L01_CSN
+Text HLabel 2650 3400 0    60   Input ~ 0
+SPI2_MISO
+Text HLabel 2650 3500 0    60   Input ~ 0
+SPI2_MOSI
+Text HLabel 2650 3000 0    60   Input ~ 0
+SPI2_SCK
+Text HLabel 6200 3100 2    60   Input ~ 0
+VDD
+Text HLabel 6950 3100 2    60   Input ~ 0
+VDD
+Text HLabel 7550 5100 0    60   Input ~ 0
+5V_USB
+Text HLabel 8400 5100 2    60   Input ~ 0
+VDD
+$Comp
+L R R201
+U 1 1 59FD468B
+P 9750 3600
+F 0 "R201" V 9830 3600 50  0000 C CNN
+F 1 "22R" V 9750 3600 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 9680 3600 50  0001 C CNN
+F 3 "" H 9750 3600 50  0001 C CNN
+	1    9750 3600
+	0    -1   -1   0   
+$EndComp
+$Comp
+L R R202
+U 1 1 59FD471E
+P 9750 3700
+F 0 "R202" V 9830 3700 50  0000 C CNN
+F 1 "22R" V 9750 3700 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 9680 3700 50  0001 C CNN
+F 3 "" H 9750 3700 50  0001 C CNN
+	1    9750 3700
+	0    1    1    0   
+$EndComp
+Text Label 3400 6000 2    60   ~ 0
+BTN_ENTER
+Text Label 3400 6300 2    60   ~ 0
+BTN_LEFT
+Text Label 3400 6600 2    60   ~ 0
+BTN_RIGHT
+Text Label 3400 6900 2    60   ~ 0
+BTN_UP
+Text Label 3400 7200 2    60   ~ 0
+BTN_DOWN
+$Comp
+L SW_PUSH SW201
+U 1 1 59FD595E
+P 2700 6000
+F 0 "SW201" H 2710 6120 50  0000 C CNN
+F 1 "ENTER" H 2700 5920 50  0000 C CNN
+F 2 "w_switch:smd_push" H 2700 6000 60  0001 C CNN
+F 3 "" H 2700 6000 60  0000 C CNN
+	1    2700 6000
+	1    0    0    -1  
+$EndComp
+$Comp
+L SW_PUSH SW202
+U 1 1 59FD5A70
+P 2700 6300
+F 0 "SW202" H 2710 6420 50  0000 C CNN
+F 1 "LEFT" H 2700 6220 50  0000 C CNN
+F 2 "w_switch:smd_push" H 2700 6300 60  0001 C CNN
+F 3 "" H 2700 6300 60  0000 C CNN
+	1    2700 6300
+	1    0    0    -1  
+$EndComp
+$Comp
+L SW_PUSH SW203
+U 1 1 59FD5B4E
+P 2700 6600
+F 0 "SW203" H 2710 6720 50  0000 C CNN
+F 1 "RIGHT" H 2700 6520 50  0000 C CNN
+F 2 "w_switch:smd_push" H 2700 6600 60  0001 C CNN
+F 3 "" H 2700 6600 60  0000 C CNN
+	1    2700 6600
+	1    0    0    -1  
+$EndComp
+$Comp
+L SW_PUSH SW204
+U 1 1 59FD5BF3
+P 2700 6900
+F 0 "SW204" H 2710 7020 50  0000 C CNN
+F 1 "UP" H 2700 6820 50  0000 C CNN
+F 2 "w_switch:smd_push" H 2700 6900 60  0001 C CNN
+F 3 "" H 2700 6900 60  0000 C CNN
+	1    2700 6900
+	1    0    0    -1  
+$EndComp
+$Comp
+L SW_PUSH SW205
+U 1 1 59FD5CA2
+P 2700 7200
+F 0 "SW205" H 2710 7320 50  0000 C CNN
+F 1 "DOWN" H 2700 7120 50  0000 C CNN
+F 2 "w_switch:smd_push" H 2700 7200 60  0001 C CNN
+F 3 "" H 2700 7200 60  0000 C CNN
+	1    2700 7200
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R203
+U 1 1 59FD5FA7
+P 3550 6000
+F 0 "R203" V 3630 6000 50  0000 C CNN
+F 1 "R" V 3550 6000 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 3480 6000 50  0001 C CNN
+F 3 "" H 3550 6000 50  0001 C CNN
+	1    3550 6000
+	0    1    1    0   
+$EndComp
+Text HLabel 5200 7050 2    60   Input ~ 0
+GND
+Text HLabel 2550 6000 0    60   Input ~ 0
+VDD
+$Comp
+L R R204
+U 1 1 59FD620C
+P 3550 6300
+F 0 "R204" V 3630 6300 50  0000 C CNN
+F 1 "R" V 3550 6300 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 3480 6300 50  0001 C CNN
+F 3 "" H 3550 6300 50  0001 C CNN
+	1    3550 6300
+	0    1    1    0   
+$EndComp
+$Comp
+L R R205
+U 1 1 59FD627A
+P 3550 6600
+F 0 "R205" V 3630 6600 50  0000 C CNN
+F 1 "R" V 3550 6600 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 3480 6600 50  0001 C CNN
+F 3 "" H 3550 6600 50  0001 C CNN
+	1    3550 6600
+	0    1    1    0   
+$EndComp
+$Comp
+L R R206
+U 1 1 59FD636C
+P 3550 6900
+F 0 "R206" V 3630 6900 50  0000 C CNN
+F 1 "R" V 3550 6900 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 3480 6900 50  0001 C CNN
+F 3 "" H 3550 6900 50  0001 C CNN
+	1    3550 6900
+	0    1    1    0   
+$EndComp
+$Comp
+L R R207
+U 1 1 59FD63D8
+P 3550 7200
+F 0 "R207" V 3630 7200 50  0000 C CNN
+F 1 "R" V 3550 7200 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 3480 7200 50  0001 C CNN
+F 3 "" H 3550 7200 50  0001 C CNN
+	1    3550 7200
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	2850 7200 3400 7200
+Wire Wire Line
+	2850 6900 3400 6900
+Wire Wire Line
+	2850 6600 3400 6600
+Wire Wire Line
+	2850 6300 3400 6300
+Wire Wire Line
+	2850 6000 3400 6000
+Wire Wire Line
+	3700 6000 3700 7200
+Connection ~ 3700 6300
+Connection ~ 3700 6600
+Connection ~ 3700 6900
+Wire Wire Line
+	2550 6000 2550 7200
+Connection ~ 2550 6300
+Connection ~ 2550 6600
+Connection ~ 2550 6900
+Text Label 4600 6150 2    60   ~ 0
+LED1
+Text Label 4600 6450 2    60   ~ 0
+LED0
+Text Label 4600 6750 2    60   ~ 0
+LED3
+Text Label 4600 7050 2    60   ~ 0
+LED2
+$Comp
+L R R208
+U 1 1 59FD72BA
+P 5050 6150
+F 0 "R208" V 5130 6150 50  0000 C CNN
+F 1 "R" V 5050 6150 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 4980 6150 50  0001 C CNN
+F 3 "" H 5050 6150 50  0001 C CNN
+	1    5050 6150
+	0    1    1    0   
+$EndComp
+$Comp
+L LED D201
+U 1 1 59FD735C
+P 4750 6150
+F 0 "D201" H 4750 6250 50  0000 C CNN
+F 1 "LED" H 4750 6050 50  0000 C CNN
+F 2 "w_smd_leds:Led_0805" H 4750 6150 50  0001 C CNN
+F 3 "" H 4750 6150 50  0001 C CNN
+	1    4750 6150
+	-1   0    0    1   
+$EndComp
+$Comp
+L R R209
+U 1 1 59FD74FE
+P 5050 6450
+F 0 "R209" V 5130 6450 50  0000 C CNN
+F 1 "R" V 5050 6450 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 4980 6450 50  0001 C CNN
+F 3 "" H 5050 6450 50  0001 C CNN
+	1    5050 6450
+	0    1    1    0   
+$EndComp
+$Comp
+L LED D202
+U 1 1 59FD7504
+P 4750 6450
+F 0 "D202" H 4750 6550 50  0000 C CNN
+F 1 "LED" H 4750 6350 50  0000 C CNN
+F 2 "w_smd_leds:Led_0805" H 4750 6450 50  0001 C CNN
+F 3 "" H 4750 6450 50  0001 C CNN
+	1    4750 6450
+	-1   0    0    1   
+$EndComp
+$Comp
+L R R210
+U 1 1 59FD7650
+P 5050 6750
+F 0 "R210" V 5130 6750 50  0000 C CNN
+F 1 "R" V 5050 6750 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 4980 6750 50  0001 C CNN
+F 3 "" H 5050 6750 50  0001 C CNN
+	1    5050 6750
+	0    1    1    0   
+$EndComp
+$Comp
+L LED D203
+U 1 1 59FD7656
+P 4750 6750
+F 0 "D203" H 4750 6850 50  0000 C CNN
+F 1 "LED" H 4750 6650 50  0000 C CNN
+F 2 "w_smd_leds:Led_0805" H 4750 6750 50  0001 C CNN
+F 3 "" H 4750 6750 50  0001 C CNN
+	1    4750 6750
+	-1   0    0    1   
+$EndComp
+$Comp
+L R R211
+U 1 1 59FD765C
+P 5050 7050
+F 0 "R211" V 5130 7050 50  0000 C CNN
+F 1 "R" V 5050 7050 50  0000 C CNN
+F 2 "w_smd_resistors:r_0603" V 4980 7050 50  0001 C CNN
+F 3 "" H 5050 7050 50  0001 C CNN
+	1    5050 7050
+	0    1    1    0   
+$EndComp
+$Comp
+L LED D204
+U 1 1 59FD7662
+P 4750 7050
+F 0 "D204" H 4750 7150 50  0000 C CNN
+F 1 "LED" H 4750 6950 50  0000 C CNN
+F 2 "w_smd_leds:Led_0805" H 4750 7050 50  0001 C CNN
+F 3 "" H 4750 7050 50  0001 C CNN
+	1    4750 7050
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	5200 6150 5200 7050
+Connection ~ 5200 6450
+Connection ~ 5200 6750
+$Comp
+L HEADER_2 J202
+U 1 1 59FDB0D4
+P 7600 5000
+F 0 "J202" V 7650 5000 60  0000 C CNN
+F 1 "PWR" V 7750 5000 60  0000 C CNN
+F 2 "w_pin_strip:pin_socket_2" H 7600 5000 60  0001 C CNN
+F 3 "" H 7600 5000 60  0000 C CNN
+	1    7600 5000
+	0    -1   -1   0   
+$EndComp
+Connection ~ 7650 5100
+Connection ~ 8200 3250
+Connection ~ 8000 1800
+Text HLabel 2650 4900 0    60   Input ~ 0
+nRF42L01_IRQ
+NoConn ~ 2650 5050
+Text Label 2650 2400 2    60   ~ 0
+BTN_DOWN
+Text Label 2650 4100 2    60   ~ 0
+BTN_UP
+Text Label 2650 4200 2    60   ~ 0
+BTN_ENTER
+Text Label 2650 2300 2    60   ~ 0
+BTN_RIGHT
+Text Label 2650 1200 2    60   ~ 0
+LED1
+Text Label 2650 1500 2    60   ~ 0
+LED0
+Text Label 2650 1600 2    60   ~ 0
+LED3
+Text Label 2650 1100 2    60   ~ 0
+LED2
+$Comp
+L HEADER_1 J203
+U 1 1 59FEAF97
+P 7750 5100
+F 0 "J203" H 7800 5250 60  0000 C CNN
+F 1 "5V" H 7750 4950 60  0000 C CNN
+F 2 "w_pin_strip:pin_socket_1" H 7750 5100 60  0001 C CNN
+F 3 "" H 7750 5100 60  0000 C CNN
+	1    7750 5100
+	1    0    0    -1  
+$EndComp
+$Comp
+L HEADER_1 J205
+U 1 1 59FEB0CE
+P 7750 5500
+F 0 "J205" H 7800 5650 60  0000 C CNN
+F 1 "GND" H 7750 5350 60  0000 C CNN
+F 2 "w_pin_strip:pin_socket_1" H 7750 5500 60  0001 C CNN
+F 3 "" H 7750 5500 60  0000 C CNN
+	1    7750 5500
+	1    0    0    -1  
+$EndComp
+$Comp
+L HEADER_1 J206
+U 1 1 59FEB15D
+P 8300 5500
+F 0 "J206" H 8350 5650 60  0000 C CNN
+F 1 "GND" H 8300 5350 60  0000 C CNN
+F 2 "w_pin_strip:pin_socket_1" H 8300 5500 60  0001 C CNN
+F 3 "" H 8300 5500 60  0000 C CNN
+	1    8300 5500
+	-1   0    0    1   
+$EndComp
+$Comp
+L HEADER_1 J204
+U 1 1 59FEB1ED
+P 8300 5100
+F 0 "J204" H 8350 5250 60  0000 C CNN
+F 1 "VDD" H 8300 4950 60  0000 C CNN
+F 2 "w_pin_strip:pin_socket_1" H 8300 5100 60  0001 C CNN
+F 3 "" H 8300 5100 60  0000 C CNN
+	1    8300 5100
+	-1   0    0    1   
+$EndComp
+Text HLabel 7650 5500 0    60   Input ~ 0
+GND
+Text HLabel 8400 5500 2    60   Input ~ 0
+GND
+Text HLabel 3700 7200 2    60   Input ~ 0
+GND
+Text HLabel 2650 3200 0    60   Input ~ 0
+nRF42L01_CE
+NoConn ~ 2650 2500
+NoConn ~ 2650 2800
+NoConn ~ 2650 2900
+NoConn ~ 2650 3100
+NoConn ~ 2650 3300
+NoConn ~ 2650 1700
+$EndSCHEMATC
