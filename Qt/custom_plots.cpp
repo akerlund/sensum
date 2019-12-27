@@ -45,10 +45,10 @@ void MainWindow::init_plot_barometer( ){
     ui->plot_barometer->yAxis->setRange(0, 10);
 
     for (int i = 0; i < max_vector_size; i++) {
-        barometer_0.append(i);
+        barometer_BMP280.append(0);
     }
 
-    ui->plot_barometer->graph(0)->setData(x_axis, barometer_0);
+    ui->plot_barometer->graph(0)->setData(x_axis, barometer_BMP280);
     ui->plot_barometer->replot( );
     ui->plot_barometer->rescaleAxes();
 }
@@ -219,33 +219,33 @@ void MainWindow::init_plot_RGB( ){
 
     // Red.
     ui->plot_RGB->addGraph( );
-    ui->plot_RGB->graph(0)->setPen(QPen(Qt::darkBlue));
+    ui->plot_RGB->graph(0)->setPen(QPen(Qt::red));
     ui->plot_RGB->graph(0)->setName("Red");
 
     for (int i = 0; i < max_vector_size; i++) {
-        RGB_sensor_0_R.append(i);
+        ISL29125_R.append(0);
     }
-    ui->plot_RGB->graph(0)->setData(x_axis, RGB_sensor_0_R);
+    ui->plot_RGB->graph(0)->setData(x_axis, ISL29125_R);
 
     // Green.
     ui->plot_RGB->addGraph( );
-    ui->plot_RGB->graph(1)->setPen(QPen(Qt::darkBlue));
+    ui->plot_RGB->graph(1)->setPen(QPen(Qt::green));
     ui->plot_RGB->graph(1)->setName("Green");
 
     for (int i = 0; i < max_vector_size; i++) {
-        RGB_sensor_0_G.append(i*2);
+        ISL29125_G.append(0);
     }
-    ui->plot_RGB->graph(1)->setData(x_axis, RGB_sensor_0_G);
+    ui->plot_RGB->graph(1)->setData(x_axis, ISL29125_G);
 
     // Blue.
     ui->plot_RGB->addGraph( );
-    ui->plot_RGB->graph(2)->setPen(QPen(Qt::darkBlue));
+    ui->plot_RGB->graph(2)->setPen(QPen(Qt::blue));
     ui->plot_RGB->graph(2)->setName("Blue");
 
     for (int i = 0; i < max_vector_size; i++) {
-        RGB_sensor_0_B.append(i*3);
+        ISL29125_B.append(0);
     }
-    ui->plot_RGB->graph(2)->setData(x_axis, RGB_sensor_0_B);
+    ui->plot_RGB->graph(2)->setData(x_axis, ISL29125_B);
 
 
     ui->plot_RGB->replot( );
@@ -280,6 +280,13 @@ void MainWindow::init_plot_UV( ){
     ui->plot_UV->rescaleAxes();
 }
 
+
+
+
+
+
+
+
 void MainWindow::update_plots( ){
     update_plot_barometer( );
     update_plot_temperature( );
@@ -290,7 +297,7 @@ void MainWindow::update_plots( ){
     update_plot_UV( );
 }
 void MainWindow::update_plot_barometer( ){
-    ui->plot_barometer->graph(0)->setData(x_axis, barometer_0);
+    ui->plot_barometer->graph(0)->setData(x_axis, barometer_BMP280);
     ui->plot_barometer->replot( );
     ui->plot_barometer->rescaleAxes();
 }
@@ -329,9 +336,9 @@ void MainWindow::update_plot_IMU( ){
     ui->plot_IMU_magnetometer->rescaleAxes();
 }
 void MainWindow::update_plot_RGB( ){
-    ui->plot_RGB->graph(0)->setData(x_axis, RGB_sensor_0_R);
-    ui->plot_RGB->graph(1)->setData(x_axis, RGB_sensor_0_G);
-    ui->plot_RGB->graph(2)->setData(x_axis, RGB_sensor_0_B);
+    ui->plot_RGB->graph(0)->setData(x_axis, ISL29125_R);
+    ui->plot_RGB->graph(1)->setData(x_axis, ISL29125_G);
+    ui->plot_RGB->graph(2)->setData(x_axis, ISL29125_B);
     ui->plot_RGB->replot( );
     ui->plot_RGB->rescaleAxes();
 }

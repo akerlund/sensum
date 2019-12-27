@@ -5,6 +5,8 @@
  *      Author: freakuency
  */
 
+#include <stdint.h>
+
 #include "rx_requests.h"
 #include "data_types.h"
 #include "mpu6050.h"
@@ -32,7 +34,7 @@
 //			} while (tp != NULL);
 //}
 
-void get_data_IMU(unsigned char *tx_data, unsigned int *index) {
+void get_data_IMU(unsigned char *tx_data, int32_t *index) {
 
 	int16_t XaccelRaw, YaccelRaw, ZaccelRaw, XgyroRaw, YgyroRaw, ZgyroRaw;
 	MPUgetMotion6(&XaccelRaw, &YaccelRaw, &ZaccelRaw, &XgyroRaw, &YgyroRaw, &ZgyroRaw);

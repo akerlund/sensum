@@ -225,23 +225,7 @@ static void process_packet(unsigned char *data, unsigned int len){
 	case COM_PACKAGE_IMU:
 		get_data_IMU(tx_buffer, &tx_length);
 		break;
-	case COM_PACKAGE_RGB:
-		break;
-	case COM_PACKAGE_UV:
-		break;
-	case COM_PACKAGE_BAROMETER:
-		break;
-	case COM_PACKAGE_HUMIDITY:
-		break;
-	case COM_PACKAGE_TEMPERATURE:
-		break;
-	case COM_PACKAGE_AMBIENT:
-		break;
-	case COM_PACKAGE_AUDIO:
-		break;
-	case COM_PACKAGE_LOGIC:
-		break;
-	case COM_PACKAGE_CAN:
+	case COM_PACKAGE_BAROMETER_BMP280:
 		break;
 	default:
 		break;

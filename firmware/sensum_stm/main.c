@@ -27,18 +27,19 @@
 #include "data_types.h"
 #include "i2c_functions.h"
 #include "usb_functions.h"
-#include "mpu6050.h"
 #include "buffer.h"
 #include "rx_requests.h"
+#include "hw_setup.h"
+#include "ssd1331.h"
 
+// Sensor headers.
+#include "bmp280.h"
+#include "mpu6050.h"
+#include "ISL29125.h"
+#include "VEML6070.h"
+#include "TCS3472.h"
+#include "mpu9250.h"
 
-static const SPIConfig spicfg = {
-  NULL,
-  GPIOE,                                     /* port of LIS302DL CS.*/
-  GPIOE_CS_SPI,                              /* pin of LIS302DL CS.*/
-  SPI_CR1_BR_0 | SPI_CR1_CPOL | SPI_CR1_CPHA,/* CR1 register.*/
-  0                                          /* CR2 register.*/
-};
 
 
 /*===========================================================================*/
@@ -51,24 +52,26 @@ int16_t XgyroRaw, YgyroRaw, ZgyroRaw;
 
 double XaccelAngle, YaccelAngle;
 static bool initSensors(void);
+static bool start_MPU9250(void);
+
 /*
  * LED blinker thread, times are in milliseconds.
  */
 static THD_WORKING_AREA(blinker_thread_wa, 128);
 static THD_FUNCTION(blinker_thread, arg) {
 
-  (void)arg;
-  chRegSetThreadName("blinker");
-  while (true) {
-    systime_t time;
+    (void)arg;
+    chRegSetThreadName("blinker_thread");
 
-    time = serusbcfg.usbp->state == USB_ACTIVE ? 250 : 500;
-    palClearLine(LINE_LED6);
-    chThdSleepMilliseconds(time);
-    palSetLine(LINE_LED6);
-    chThdSleepMilliseconds(time);
-    //chprintf((BaseSequentialStream *)&SDU1, "Test\r\n");
-  }
+    while (true) {
+        systime_t time;
+
+        time = serusbcfg.usbp->state == USB_ACTIVE ? 250 : 500;
+        palClearLine(LINE_LED6);
+        chThdSleepMilliseconds(time);
+        palSetLine(LINE_LED6);
+        chThdSleepMilliseconds(time);
+    }
 }
 
 /*
@@ -76,133 +79,224 @@ static THD_FUNCTION(blinker_thread, arg) {
  */
 int main(void) {
 
-	/*
-	* System initializations.
-	* - HAL initialization, this also initializes the configured device drivers
-	*   and performs the board-specific initializations.
-	* - Kernel initialization, the main() function becomes a thread and the
-	*   RTOS is active.
-	*/
-	halInit();
-	chSysInit();
-	palSetLine(LINE_LED3);
+    /*
+    * System initializations.
+    * - HAL initialization, this also initializes the configured device drivers
+    *   and performs the board-specific initializations.
+    * - Kernel initialization, the main() function becomes a thread and the
+    *   RTOS is active.
+    */
+    halInit();
+    chSysInit();
 
-	/* Initializes a serial-over-USB CDC driver.*/
-	sduObjectInit(&SDU1);
-	sduStart(&SDU1, &serusbcfg);
+    hw_initialization( );   // USB, SPI, GPIO
+    i2c_initialization( );  // I2C, contains functions for sensors.
 
-	/*
-	* Activates the USB driver and then the USB bus pull-up on D+.
-	* Note, a delay is inserted in order to not have to disconnect the cable
-	* after a reset.
-	*/
-	usbDisconnectBus(serusbcfg.usbp);
-	chThdSleepMilliseconds(1500);
-	usbStart(serusbcfg.usbp, &usbcfg);
-	usbConnectBus(serusbcfg.usbp);
-//	start_usb( );
-	i2c_initialization( );
-	palSetLine(LINE_LED3);
+    /*
+     * Sensor initializations.
+     */
+    bmp280_initialize(BMP280_ADDRESS_LOW);  // Pressure     0x76
+    //initSensors( );                         // MPU6050      0x68
+    //palSetLine(LINE_LED3);
+    ssd1331_initialize( );                  // OLED
+    //ISL29125_initialize( );                 // RGB          0x44
+    //palSetLine(LINE_LED4);
+    //VEML6070_initialize(3);                 // UV           0x38, 0x39
+    //TCS3472_initialize( );                  // RGB          0x29
 
-	if(initSensors( )){
-		palSetLine(LINE_LED4);
-	} else {
+    /*
+     *  MPU9250
+     */
+    uint8_t I_am = 0;
+    I2C_read_byte(MPU9250_ADDRESS, WHO_AM_I_MPU9250, &I_am);
+    if(I_am == 0x71){
+        palSetLine(LINE_LED6);
+    }
 
-		palSetLine(LINE_LED5);
-	}
-	/* Creates the blinker thread.*/
-	chThdCreateStatic(blinker_thread_wa, sizeof(blinker_thread_wa), NORMALPRIO + 1, blinker_thread, NULL);
+    I2C_read_byte(AK8963_ADDRESS, WHO_AM_I_AK8963, &I_am);
+    if(I_am == 0x48){
+        palSetLine(LINE_LED5);
+    }
 
-	/* LIS302DL Object Initialization.*/
-	//lis302dlObjectInit(&LIS302DLD1);
-
-	/* Activates the LIS302DL driver.*/
-	//lis302dlStart(&LIS302DLD1, &l3gd20cfg);
-
-	/* Shell manager initialization.*/
-	//shellInit();
-
-	COM_HEADER header = COM_PACKAGE_IMU;
-	unsigned char tx_buffer[64];
-	unsigned int tx_length;
-	tx_buffer[0] = START_BYTE;
-	tx_buffer[1] = header;
-	tx_buffer[2] = 0;
-
-	while (TRUE){
-//		MPUgetMotion6(&XaccelRaw, &YaccelRaw, &ZaccelRaw, &XgyroRaw, &YgyroRaw, &ZgyroRaw);
+    for(int j = 0; j < 10; j++){
+        palToggleLine(LINE_LED3);
+        chThdSleepMilliseconds(100);
+    }
+    palClearLine(LINE_LED3);
+    palClearLine(LINE_LED4);
 
 
-//		chprintf((BaseSequentialStream *)&SDU1, "A: X-axis: %d mg\r\n", XaccelRaw);
-//		chprintf((BaseSequentialStream *)&SDU1, "A: Y-axis: %d mg\r\n", YaccelRaw);
-//		chprintf((BaseSequentialStream *)&SDU1, "A: Z-axis: %d mg\r\n", ZaccelRaw);
-//		chprintf((BaseSequentialStream *)&SDU1, "G: X-axis: %d mg\r\n", XgyroRaw);
-//		chprintf((BaseSequentialStream *)&SDU1, "G: Y-axis: %d mg\r\n", YgyroRaw);
-//		chprintf((BaseSequentialStream *)&SDU1, "G: Z-axis: %d mg\r\n", ZgyroRaw);
+    start_MPU9250( );
 
-		tx_length = 3;
-		get_data_IMU(tx_buffer, &tx_length);
-		tx_buffer[2] = (unsigned char)tx_length-3;
-		streamWrite(&SDU1, tx_buffer, tx_length);
+    for(int j = 0; j < 50; j++){
+        palToggleLine(LINE_LED6);
+        chThdSleepMilliseconds(100);
+    }
+    I2C_read_byte(MPU9250_ADDRESS, WHO_AM_I_MPU9250, &I_am);
+    if(I_am == 0x71){
+        palSetLine(LINE_LED3);
+    }
+
+    I2C_read_byte(AK8963_ADDRESS, WHO_AM_I_AK8963, &I_am);
+    if(I_am == 0x48){
+        palSetLine(LINE_LED4);
+    }
+    for(int j = 0; j < 10; j++){
+        palToggleLine(LINE_LED6);
+        chThdSleepMilliseconds(100);
+    }
+    palClearLine(LINE_LED3);
+    palClearLine(LINE_LED4);
+    /* Creates the blinker thread.*/
+    chThdCreateStatic(blinker_thread_wa, sizeof(blinker_thread_wa), NORMALPRIO + 1, blinker_thread, NULL);
+
+    /* Shell manager initialization.*/
+    //shellInit();
+
+    unsigned char tx_buffer[64];
+    unsigned char i2c_buffer[64];
+//    unsigned char g[2];
+//    unsigned char r[2];
+//    unsigned char b[2];
+    int32_t tx_length;
+
+    tx_buffer[0] = START_BYTE;
+    tx_buffer[1] = COM_PACKAGE_IMU;
+    tx_buffer[2] = 0;
+
+    float pressure;
+
+    int16_t mpu9250_buf[10];
+
+    while (TRUE){
+
+        // MPU6250
+//        tx_buffer[1] = COM_PACKAGE_IMU;
+//        tx_length = 3;
 //
-		chThdSleepMilliseconds(20);
-	}
+//        get_data_IMU(tx_buffer, &tx_length);
+//        tx_buffer[2] = (unsigned char)tx_length-3;
+//        streamWrite(&SDU1, tx_buffer, tx_length);
+//
+//        chThdSleepMilliseconds(20);
 
-	static uint8_t mpu6050_buffer[20];
-	static int i2c_error = 0;
-	while(TRUE) {
-//    if (SDU1.config->usbp->state == USB_ACTIVE) {
-//      thread_t *shelltp = chThdCreateFromHeap(NULL, SHELL_WA_SIZE,
-//                                              "shell", NORMALPRIO + 1,
-//                                              shellThread, (void *)&shell_cfg1);
-//      chThdWait(shelltp);               /* Waiting termination.             */
-//    }
-		palSetLine(LINE_LED4);
-		chThdSleepMilliseconds(500);
-		i2c_error = i2c_read_MPU6050(mpu6050_buffer);
-		if (i2c_error == 0) {
-			//palSetLine(LINE_LED5);
-			palClearLine(LINE_LED5);
-		} else {
-			//palClearLine(LINE_LED5);
-			palSetLine(LINE_LED5);
 
-			//chprintf(chp, "%c-axis: %d\r\n", axisID[i]);
-		}
-		palClearLine(LINE_LED4);
-		chThdSleepMilliseconds(500);
-	}
-	//lis302dlStop(&LIS302DLD1);
-	return 0;
+        // BMP
+//        tx_buffer[1] = COM_PACKAGE_BAROMETER_BMP280;
+//        tx_length = 3;
+//        pressure = bmp280_read_pressure( );
+//        buffer_append_float32(tx_buffer, pressure, 1, &tx_length);
+//        tx_buffer[2] = 4;
+//        streamWrite(&SDU1, tx_buffer, tx_length);
+//
+//        chThdSleepMilliseconds(20);
+
+
+        // ISL29125
+//        tx_buffer[1] = COM_PACKAGE_ISL29125;
+//        tx_length = 3;
+//        //ISL29125_get_GRB();
+//
+//        if(I2C_read_bytes(ISL29125_ADDR, ISL29125_GREEN_L, i2c_buffer, 6)){
+//            //palSetLine(LINE_LED4);
+//        } else {
+//            //palSetLine(LINE_LED5);
+//        }
+//
+//        buffer_append_int16(tx_buffer, i2c_buffer[0], &tx_length);
+//        buffer_append_int16(tx_buffer, i2c_buffer[2], &tx_length);
+//        buffer_append_int16(tx_buffer, i2c_buffer[4], &tx_length);
+//        tx_buffer[2] = 6;
+//
+//        streamWrite(&SDU1, tx_buffer, tx_length);
+//
+//        chThdSleepMilliseconds(20);
+
+
+        // MPU9250
+        tx_buffer[1] = COM_PACKAGE_MPU9250;
+        tx_length = 3;
+        if(get_accelerometer_data(&mpu9250_buf[0])){
+            palToggleLine(LINE_LED3);
+        }
+
+        if(get_gyroscope_data(&mpu9250_buf[3])){
+            palToggleLine(LINE_LED4);
+        }
+
+        if(get_magnetometer_data(&mpu9250_buf[6])){
+            palToggleLine(LINE_LED5);
+        }
+
+        //get_temperature_data(&mpu9250_buf[9]);
+
+        buffer_append_int16(tx_buffer, mpu9250_buf[0], &tx_length);
+        buffer_append_int16(tx_buffer, mpu9250_buf[1], &tx_length);
+        buffer_append_int16(tx_buffer, mpu9250_buf[2], &tx_length);
+        buffer_append_int16(tx_buffer, mpu9250_buf[3], &tx_length);
+        buffer_append_int16(tx_buffer, mpu9250_buf[4], &tx_length);
+        buffer_append_int16(tx_buffer, mpu9250_buf[5], &tx_length);
+        buffer_append_int16(tx_buffer, mpu9250_buf[6], &tx_length);
+        buffer_append_int16(tx_buffer, mpu9250_buf[7], &tx_length);
+        buffer_append_int16(tx_buffer, mpu9250_buf[8], &tx_length);
+        buffer_append_int16(tx_buffer, mpu9250_buf[9], &tx_length);
+        tx_buffer[2] = 20;
+
+        streamWrite(&SDU1, tx_buffer, tx_length);
+        chThdSleepMilliseconds(50);
+
+
+//
+//        I2CdevreadBytes(ISL29125_ADDR, ISL29125_RED_L, 2, &r, 0);
+//        I2CdevreadBytes(ISL29125_ADDR, ISL29125_GREEN_L, 2, &g, 0);
+//        I2CdevreadBytes(ISL29125_ADDR, ISL29125_BLUE_L, 2, &b, 0);
+
+        //I2CdevreadByte(devAddr, regAddr, data, timeout)
+       // I2CdevreadBytes(devAddr, regAddr, 6, data, timeout);
+
+    }
+}
+/*
+ * Removing the MPU6050 later
+ *
+ * */
+static bool initSensors(void){
+    bool sts = 0;
+
+    /* MPU6050, AD0 is connected to VCC */
+    MPU6050(MPU6050_ADDRESS_AD0_LOW);
+
+    /* Test connection */
+    sts = MPUtestConnection();
+    if (!sts) return FALSE;
+
+    MPUreset();
+    MPUresetSensors();
+    chThdSleepMilliseconds(100);
+    MPUinitialize();
+    chThdSleepMilliseconds(100);
+
+//  chprintf((BaseSequentialStream *)&SDU1, "A: X-axis: %d mg\r\n", XaccelRaw);
+//  chprintf((BaseSequentialStream *)&SDU1, "G: X-axis: %d mg\r\n", XgyroRaw);
+
+    return TRUE;
 }
 
-static bool initSensors(void){
-	bool sts = 0;
+static bool start_MPU9250(void){
 
-	/* MPU6050, AD0 is connected to VCC */
-	MPU6050(MPU6050_ADDRESS_AD0_LOW);
+    float gyroBias[3] = {0, 0, 0}, accelBias[3] = {0, 0, 0};
+    float mpu_deviation[6];
 
-	/* Test connection */
-	sts = MPUtestConnection();
-	if (!sts) return FALSE;
 
-	MPUreset();
-	MPUresetSensors();
-	chThdSleepMilliseconds(100);
-	MPUinitialize();
-	chThdSleepMilliseconds(100);
+    MPU9250_self_test(&mpu_deviation[0]);
+    MPU9250_calibrate(&gyroBias[0], &accelBias[0]);
+    init_MPU9250( );
+//    if(init_MPU9250( )){
+//        palSetLine(LINE_LED5);
+//    }
+    // Factory mag calibration and mag bias
+    float magCalibration[3] = {0, 0, 0};//, magbias[3] = {0, 0, 0};
+    init_AK8963(&magCalibration[0]);
 
-//	MPUgetMotion6(&XaccelRaw, &YaccelRaw, &ZaccelRaw, &XgyroRaw, &YgyroRaw, &ZgyroRaw);
-//
-////	XaccelAngle = (atan2(YaccelRaw,ZaccelRaw)+M_PI)*RAD_TO_DEG;
-////	YaccelAngle = (atan2(XaccelRaw,ZaccelRaw)+M_PI)*RAD_TO_DEG;
-//	//        chprintf(chp, "%c-axis: %d\r\n", axisID[i], rawdata[i]);
-//	chprintf((BaseSequentialStream *)&SDU1, "A: X-axis: %d mg\r\n", XaccelRaw);
-//	chprintf((BaseSequentialStream *)&SDU1, "A: Y-axis: %d mg\r\n", YaccelRaw);
-//	chprintf((BaseSequentialStream *)&SDU1, "A: Z-axis: %d mg\r\n", ZaccelRaw);
-//	chprintf((BaseSequentialStream *)&SDU1, "G: X-axis: %d mg\r\n", XgyroRaw);
-//	chprintf((BaseSequentialStream *)&SDU1, "G: Y-axis: %d mg\r\n", YgyroRaw);
-//	chprintf((BaseSequentialStream *)&SDU1, "G: Z-axis: %d mg\r\n", ZgyroRaw);
-
-	return TRUE;
+    return true;
 }

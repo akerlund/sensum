@@ -7,20 +7,55 @@
 
 #include "ch.h"
 #include "hal.h"
+#include "usbcfg.h"
 
 #include "hw_setup.h"
 
-	static const SPIConfig spi2cfg = {
-		NULL,
-		/* HW dependent part.*/
-		GPIOB,
-		12,
-		0,
-		0
-	};
+    /*
+     *  SPI struct format.
+     *  Bits 5:3 SPI_CR1_BR[2:0]: Baud rate control
+     *  000: f_PCLK/2   100: f_PCLK/32
+     *  001: f_PCLK/4   101: f_PCLK/64
+     *  010: f_PCLK/8   110: f_PCLK/128
+     *  011: f_PCLK/16  111: f_PCLK/256
+     */
+
+/*
+ * SPI2
+ */
+static const SPIConfig spi2cfg = {
+	NULL,
+	/* HW dependent part.*/
+	GPIOB,	// CS
+	12,		// CS
+	SPI_CR1_BR_2 | SPI_CR1_BR_1 | SPI_CR1_BR_0 | SPI_CR1_CPOL | SPI_CR1_CPHA,		// CR1
+	0		// CR2
+};
+
+
 void hw_initialization( ){
-	setup_GPIO( );
-	hw_setup_SPI2( );
+
+    hw_setup_USB( );
+	setup_GPIO( ); 		// SSD1331,
+	hw_setup_SPI2( );	// SSD1331,
+}
+
+void hw_setup_USB( ){
+
+    /* Initializes a serial-over-USB CDC driver.*/
+    sduObjectInit(&SDU1);
+    sduStart(&SDU1, &serusbcfg);
+
+    /*
+    * Activates the USB driver and then the USB bus pull-up on D+.
+    * Note, a delay is inserted in order to not have to disconnect the cable
+    * after a reset.
+    */
+    usbDisconnectBus(serusbcfg.usbp);
+    chThdSleepMilliseconds(1500);
+    usbStart(serusbcfg.usbp, &usbcfg);
+    usbConnectBus(serusbcfg.usbp);
+//  start_usb( );
 }
 
 void hw_setup_SPI2( ){

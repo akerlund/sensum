@@ -19,20 +19,22 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     ui->setupUi(this);
 
+    status_label = new QLabel(this);
+    ui->statusBar->addPermanentWidget(status_label);
+    status_label->setText("Port disconnected.");
+
     serial_port = new QSerialPort(this);
     connect(serial_port, SIGNAL(readyRead( )), this, SLOT(serial_RX_event( )));
     connect(serial_port, SIGNAL(error(QSerialPort::SerialPortError)), this, SLOT(serialPortError(QSerialPort::SerialPortError)));
     refreshSerialDevices( );
 
-    status_label = new QLabel(this);
-    ui->statusBar->addPermanentWidget(status_label);
 
 
     qApp->installEventFilter(this);
 
     // Plot updates.
     q_timer = new QTimer(this);
-    q_timer->setInterval(50);
+    q_timer->setInterval(20);
     q_timer->start( );
     connect(q_timer, SIGNAL(timeout()), this, SLOT(q_timer_event( )));
 
@@ -59,21 +61,26 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+/**
+*   @brief  Updates all the plots if they are visible.
+*
+*   @return void
+*/
 void MainWindow::q_timer_event( )
 {
     sin_shifter += 0.25;
     QVector<double> sine_data;
+
     for (int i = 0; i < max_vector_size; i++){
         sine_data.append(sin(2*pi*i/max_vector_size*20+sin_shifter));
     }
-
 
     int index = ui->tabWidget_plots->currentIndex();
     QString currentTabText = ui->tabWidget_plots->tabText(index);
 
 
     if((currentTabText == "Environment") & ui->tabWidget_plots->isVisible()){
-        barometer_0 = sine_data;
+        //barometer_0 = sine_data;
         temperature_0 = sine_data;
         humidity_0 = sine_data;
         ambient_light_0 = sine_data;
@@ -95,10 +102,10 @@ void MainWindow::q_timer_event( )
 
     bool tab_light = (currentTabText == "Light") & ui->tabWidget_plots->isVisible();
     if(tab_light){
-        RGB_sensor_0_R = sine_data;
-        RGB_sensor_0_G = sine_data;
-        RGB_sensor_0_B = sine_data;
-        UV_0 = sine_data;
+//        RGB_sensor_0_R = sine_data;
+//        RGB_sensor_0_G = sine_data;
+//        RGB_sensor_0_B = sine_data;
+//        UV_0 = sine_data;
         update_plot_RGB( );
         update_plot_UV( );
     }
@@ -127,6 +134,7 @@ void MainWindow::refreshSerialDevices( )
         ui->comboBox_serial->insertItem(index, name, port.systemLocation( ));
     }
     ui->comboBox_serial->setCurrentIndex(0);
+    status_label->setText(tr("Ports refreshed."));
 }
 
 /**
@@ -227,24 +235,19 @@ void MainWindow::process_RX_package(int rx_header, char unsigned *rx_data, int r
     switch(com_head){
     case COM_PACKAGE_IMU:
         rx_unpack_IMU(rx_data, received_bytes);
+        //print_to_terminal("COM_PACKAGE_IMU");
         break;
-    case COM_PACKAGE_RGB:
+    case COM_PACKAGE_BAROMETER_BMP280:
+        rx_unpack_BMP280(rx_data, received_bytes);
+        //print_to_terminal("COM_PACKAGE_BAROMETER_BMP280");
         break;
-    case COM_PACKAGE_UV:
+    case COM_PACKAGE_ISL29125:
+        rx_unpack_ISL29125(rx_data, received_bytes);
+        //print_to_terminal("COM_PACKAGE_ISL29125");
         break;
-    case COM_PACKAGE_BAROMETER:
-        break;
-    case COM_PACKAGE_HUMIDITY:
-        break;
-    case COM_PACKAGE_TEMPERATURE:
-        break;
-    case COM_PACKAGE_AMBIENT:
-        break;
-    case COM_PACKAGE_AUDIO:
-        break;
-    case COM_PACKAGE_LOGIC:
-        break;
-    case COM_PACKAGE_CAN:
+    case COM_PACKAGE_MPU9250:
+        rx_unpack_MPU9250(rx_data, received_bytes);
+        //print_to_terminal("COM_PACKAGE_MPU9250");
         break;
     default:
         break;
@@ -305,11 +308,14 @@ void MainWindow::serialPortError(QSerialPort::SerialPortError error)
         break;
     }
 
-    if(!message.isEmpty( )) {        
-        status_label->setText(message);
+    if(!message.isEmpty( )) {
+        //status_label->setText(message);
         if(serial_port->isOpen( )) {
             serial_port->close( );
         }
+    } else {
+
+        //status_label->setText(tr("Port disconnecteDDd."));
     }
 }
 
@@ -405,6 +411,7 @@ bool MainWindow::eventFilter(QObject *object, QEvent *e)
 void MainWindow::on_btn_serial_connect_clicked()
 {
     if(serial_port->isOpen( )) {
+        status_label->setText("Serial already open.");
         return;
     }
 

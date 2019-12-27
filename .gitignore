@@ -1,8 +1,8 @@
-.gitignore~
+*.pyc
+*.*~
 
-**/*.pyc
-**/*.py~
-**/*.vhd~
+firmware/sensum_stm/build/
+firmware/sensum_stm/ChibiOS_17.6.0/
 
 data_sheets/*
 KiCad/*

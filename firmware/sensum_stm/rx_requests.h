@@ -9,6 +9,6 @@
 #define RX_REQUESTS_H_
 
 void get_chibi_status(void);
-void get_data_IMU(unsigned char *tx_data, unsigned int *index);
+void get_data_IMU(unsigned char *tx_data, int32_t *index);
 
 #endif /* RX_REQUESTS_H_ */

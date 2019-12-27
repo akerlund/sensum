@@ -9,8 +9,13 @@
 #define SSD1331_H_
 
 // SSD1331 Commands.
+
+#define SSD1331_CMD_PHASEPERIOD      0x12
 #define SSD1331_CMD_DRAWLINE         0x21
 #define SSD1331_CMD_DRAWRECT         0x22
+#define SSD1331_CMD_COPY             0x23
+#define SSD1331_CMD_DIM_WINDOW       0x24
+#define SSD1331_CMD_CLEAR_WINDOW     0x25
 #define SSD1331_CMD_FILL             0x26
 #define SSD1331_CMD_SETCOLUMN        0x15
 #define SSD1331_CMD_SETROW           0x75
@@ -32,11 +37,14 @@
 #define SSD1331_CMD_POWERMODE        0xB0
 #define SSD1331_CMD_PRECHARGE        0xB1
 #define SSD1331_CMD_CLOCKDIV         0xB3
+#define SSD1331_CMD_GRAYSCALE        0xB8
 #define SSD1331_CMD_PRECHARGEA       0x8A
 #define SSD1331_CMD_PRECHARGEB       0x8B
 #define SSD1331_CMD_PRECHARGEC       0x8C
 #define SSD1331_CMD_PRECHARGELEVEL   0xBB
 #define SSD1331_CMD_VCOMH            0xBE
+
+
 
 // Basic Color definitions.
 #define	COLOR_BLACK                         (uint16_t)(0x0000)
@@ -67,6 +75,10 @@ void ssd1331_reset(void);
 void ssd1331_set_cursor(uint8_t x, uint8_t y);
 void ssd1331_draw_line(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint16_t color);
 void ssd1331_fill_rectangle(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, uint16_t pencolor, uint16_t fillcolor);
+void ssd1331_copy(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2);
+void ssd1331_dim_window(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2);
+void ssd1331_clear_window(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1);
+
 void ssd1331_test(void);
 
 #endif /* SSD1331_H_ */

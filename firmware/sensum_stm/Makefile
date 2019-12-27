@@ -5,7 +5,7 @@
 
 # Compiler options here.
 ifeq ($(USE_OPT),)
-  USE_OPT = -O2 -ggdb -fomit-frame-pointer -falign-functions=16 -lm
+  USE_OPT = -O2 -ggdb -fomit-frame-pointer -falign-functions=16 -std=gnu99 -lm
 endif
 
 # C specific options here (added to USE_OPT).
@@ -83,7 +83,7 @@ endif
 #
 
 # Define project name here
-PROJECT = sensor2
+PROJECT = sensum
 
 # Imported source files and paths
 CHIBIOS = ChibiOS_17.6.0
@@ -98,7 +98,7 @@ include $(CHIBIOS)/os/hal/osal/rt/osal.mk
 include $(CHIBIOS)/os/rt/rt.mk
 include $(CHIBIOS)/os/common/ports/ARMCMx/compilers/GCC/mk/port_v7m.mk
 # Other files (optional).
-include $(CHIBIOS)/os/ex/ST/lis302dl.mk
+#include $(CHIBIOS)/os/ex/ST/lis302dl.mk
 include $(CHIBIOS)/os/hal/lib/streams/streams.mk
 include $(CHIBIOS)/os/various/shell/shell.mk
 
@@ -123,8 +123,16 @@ CSRC = $(STARTUPSRC) \
        rx_requests.c \
        i2c_functions.c \
        i2cdev_chibi.c \
+       buffer.c \
+       hw_setup.c \
+       ssd1331.c \
+       bmp280.c \
+       ISL29125.c \
        mpu6050.c \
-       buffer.c 
+       VEML6070.c \
+       TCS3472.c \
+       mpu9250.c
+       
 
 # C++ sources that can be compiled in ARM or THUMB mode depending on the global
 # setting.

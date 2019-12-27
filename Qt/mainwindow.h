@@ -60,7 +60,13 @@ private:
     static const int max_vector_size = 300;
     QVector<double> x_axis;
 
-    QVector<double> barometer_0;
+    QVector<double> barometer_BMP280;
+
+    QVector<double> ISL29125_R;
+    QVector<double> ISL29125_G;
+    QVector<double> ISL29125_B;
+
+
     QVector<double> temperature_0;
     QVector<double> humidity_0;
     QVector<double> ambient_light_0;
@@ -103,6 +109,10 @@ private:
     void shift_in_to_vector(QVector<double> *vector, double value, int max_size);
 
     void rx_unpack_IMU(unsigned char *rx_data, int received_bytes);
+    void rx_unpack_BMP280(unsigned char *rx_data, int received_bytes);
+    void rx_unpack_ISL29125(unsigned char *grb, int received_bytes);
+    void rx_unpack_MPU9250(unsigned char *rx_data, int received_bytes);
+
 
     void serial_TX_send(QByteArray &data);
     void refreshSerialDevices( );
@@ -112,15 +122,20 @@ private:
 
     typedef enum {						// USB RX package identifiers.
         COM_PACKAGE_IMU = 0,
-        COM_PACKAGE_RGB,
-        COM_PACKAGE_UV,
-        COM_PACKAGE_BAROMETER,
-        COM_PACKAGE_HUMIDITY,
-        COM_PACKAGE_TEMPERATURE,
-        COM_PACKAGE_AMBIENT,
-        COM_PACKAGE_AUDIO,
-        COM_PACKAGE_LOGIC,
-        COM_PACKAGE_CAN
+        COM_PACKAGE_BAROMETER_BMP280,
+        COM_PACKAGE_ISL29125,
+        COM_PACKAGE_VEML6070,
+        COM_PACKAGE_TCS3472,
+        COM_PACKAGE_MPU9250
+    //	COM_PACKAGE_RGB,
+    //	COM_PACKAGE_UV,
+    //	COM_PACKAGE_BAROMETER,
+    //	COM_PACKAGE_HUMIDITY,
+    //	COM_PACKAGE_TEMPERATURE,
+    //	COM_PACKAGE_AMBIENT,
+    //	COM_PACKAGE_AUDIO,
+    //	COM_PACKAGE_LOGIC,
+    //	COM_PACKAGE_CAN
     } COM_HEADER;
 
 };
