@@ -1,7 +1,7 @@
 *.pyc
 *.*~
 
-firmware/sensum_stm/build/
-firmware/sensum_stm/ChibiOS_17.6.0/
+firmware/build/
+#firmware/ChibiOS_17.6.0/
 
 data_sheets/*
