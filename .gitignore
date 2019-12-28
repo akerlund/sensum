@@ -1,7 +1,9 @@
 *.pyc
 *.*~
 
+firmware/.dep/
 firmware/build/
-#firmware/ChibiOS_17.6.0/
+firmware/ChibiOS_17.6.0/
+firmware/.vscode/
 
 data_sheets/*
